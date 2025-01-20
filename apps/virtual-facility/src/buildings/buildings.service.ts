@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Building } from './entities/building.entity';
-import { CreateWorkflowDto } from '@app/workflows';
+import { CreateWorkflowDto, WorkflowDto } from '@app/workflows';
 import { Workflow } from 'apps/workflows-service/src/workflows/entities/workflow.entity';
-import { CreateBuildingDto, UpdateBuildingDto } from '@app/buildings';
+import { BuildingDto, CreateBuildingDto, UpdateBuildingDto } from '@app/buildings';
 
 @Injectable()
 export class BuildingsService {
@@ -25,15 +25,15 @@ export class BuildingsService {
     return building;
   }
 
-  async create(createBuildingDto: CreateBuildingDto): Promise<Building> {
+  async create(createBuildingDto: CreateBuildingDto): Promise<BuildingDto> {
     const building = this.buildingsRepository.create({
       ...createBuildingDto,
     });
     const newBuildingEntity = await this.buildingsRepository.save(building);
 
     // Create a workflow for the new building
-    await this.createWorkflow(newBuildingEntity.id);
-    return newBuildingEntity;
+    const workflow: WorkflowDto = await this.createWorkflow(newBuildingEntity.id);
+    return new BuildingDto(newBuildingEntity, workflow);
   }
 
   async update(
@@ -56,19 +56,21 @@ export class BuildingsService {
     return this.buildingsRepository.remove(building);
   }
 
-  async createWorkflow(buildingId: number): Promise<Workflow> {
+  async createWorkflow(buildingId: number): Promise<WorkflowDto> {
     const workflow: CreateWorkflowDto = { name: 'My Workflow', buildingId };
     console.log(workflow);
-    // const response = await fetch('http://workflows-service:3001/workflows', {
-    const response = await fetch('http://localhost:3001/workflows', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: workflow.toString(),
-    }).catch((error) => {
-      console.error(error);
+    try {
+      const response = await fetch('http://workflows-service:3001/workflows', {
+        // const response = await fetch('http://localhost:3001/workflows', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(workflow),
+        });
+        const newWorkflow: WorkflowDto = await response.json();
+        return newWorkflow;
+      } catch (error) {
       throw new Error('Failed to call workflows service');
-    });
-    const newWorkflow: Workflow = await response.json();
-    return newWorkflow;
+    }
+
   }
 }

@@ -8,6 +8,7 @@ export class BuildingsController {
 
   @Post()
   create(@Body() createBuildingDto: CreateBuildingDto) {
+    console.log('createBuildingDto', createBuildingDto);
     return this.buildingsService.create(createBuildingDto);
   }
 
