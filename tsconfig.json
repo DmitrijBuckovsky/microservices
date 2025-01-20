@@ -17,6 +17,19 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@app/workflows": [
+        "libs/workflows/src"
+      ],
+      "@app/workflows/*": [
+        "libs/workflows/src/*"
+      ],
+      "@app/buildings": [
+        "libs/buildings/src"
+      ],
+      "@app/buildings/*": [
+        "libs/buildings/src/*"
+      ]
+    }
   }
 }

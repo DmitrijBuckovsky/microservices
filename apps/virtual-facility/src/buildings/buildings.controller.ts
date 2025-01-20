@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BuildingsService } from './buildings.service';
-import { CreateBuildingDto } from './dto/create-building.dto';
-import { UpdateBuildingDto } from './dto/update-building.dto';
+import { CreateBuildingDto, UpdateBuildingDto } from '@app/buildings';
 
 @Controller('buildings')
 export class BuildingsController {
