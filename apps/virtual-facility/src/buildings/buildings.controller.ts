@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Logger } from '@nestjs/common';
 import { BuildingsService } from './buildings.service';
-import { CreateBuildingDto, UpdateBuildingDto } from '@app/buildings';
+import { BuildingDto, CreateBuildingDto, UpdateBuildingDto } from '@app/buildings';
 
 @Controller('buildings')
 export class BuildingsController {
@@ -9,7 +9,7 @@ export class BuildingsController {
    constructor(private readonly buildingsService: BuildingsService) {}
 
   @Post()
-  create(@Body() createBuildingDto: CreateBuildingDto) {
+  create(@Body() createBuildingDto: CreateBuildingDto): Promise<BuildingDto> {
     this.logger.log('createBuildingDto', createBuildingDto);
     return this.buildingsService.create(createBuildingDto);
   }
