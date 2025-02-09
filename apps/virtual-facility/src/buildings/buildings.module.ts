@@ -3,7 +3,7 @@ import { BuildingsService } from './buildings.service';
 import { BuildingsController } from './buildings.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Building } from './entities/building.entity';
-import { Client, ClientsModule, Transport } from '@nestjs/microservices';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { WORKFLOWS_SERVICE } from '../constants';
 
 @Module({

@@ -25,8 +25,8 @@ export class WorkflowsService {
 
   async create(createWorkflowDto: CreateWorkflowDto): Promise<WorkflowDto> {
     console.log('Creating a new workflow', createWorkflowDto);
-    const workflow = this.workflowsRepository.create(createWorkflowDto);
-    const newWorkflowEntity = await this.workflowsRepository.save(workflow);
+    const workflow: Workflow = this.workflowsRepository.create(createWorkflowDto);
+    const newWorkflowEntity: Workflow = await this.workflowsRepository.save(workflow);
     return new WorkflowDto(newWorkflowEntity);
   }
 
