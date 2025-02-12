@@ -15,7 +15,7 @@ import { WORKFLOWS_SERVICE } from '../constants';
         // transport: Transport.NATS,
         transport: Transport.RMQ,
         options: {
-          urls: [process.env.RABBITMQ_URL], // 👈
+          urls: [process.env.RABBITMQ_URL],
           // servers: process.env.NATS_URL,
         },
       },
